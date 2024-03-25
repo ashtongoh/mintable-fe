@@ -19,6 +19,8 @@ TBA
   2) Currently lacking a log out button for Supabase Auth on the navigation bar
   
   3) Could have used Ethers.js to get the NFT contract information, but it was far too time consuming. Hence I used Alchemy API instead.
+
+  4) An external state management tool, like Recoil, could have been used. However, the extra complexity to add that in wasn't really needed. Supabase and WAGMI both provided their own useContext hooks, so I could simply call them wherever I wanted
   
     
 ## Instructions
