@@ -1,5 +1,7 @@
 ## Architecture Diagram
-TBA
+
+![mintable-fe drawio](https://github.com/hahaashton1/mintable-fe/assets/54927531/ceea53c0-19bd-455a-8f26-8830fbbf0f0e)
+
 
 ## Technologies Used
 
