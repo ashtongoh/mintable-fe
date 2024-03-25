@@ -15,7 +15,6 @@ const NftDetailPage = () => {
     const [nftDetails, setNftDetails] = useState<NFT | null>(null);
 
     const pathArray = pathName.split('/');
-
     const tokenType = pathArray[2];
     const contractAddress = pathArray[3];
     const tokenId = pathArray[4];
@@ -23,7 +22,7 @@ const NftDetailPage = () => {
     const callGetNFTMetadata = async (tokenType: string, contractAddress: string, tokenId: string) => {
         try {
             const data = await getNFTMetadata(contractAddress, tokenId, tokenType);
-            console.log(data);
+            //console.log(data);
             setNftDetails(data);
 
         } catch (error) {
@@ -37,7 +36,7 @@ const NftDetailPage = () => {
     }, [searchParams]);
 
     return (
-        <div className="card lg:card-side bg-base-100 shadow-xl max-w-7xl">
+        <div className="card lg:card-side bg-base-100 shadow-xl max-w-7xl my-10">
 
             <figure><img src={nftDetails?.image.originalUrl} alt="nft-image" /></figure>
 

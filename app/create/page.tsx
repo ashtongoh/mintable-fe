@@ -4,11 +4,13 @@ import SkeletonCard from "@/components/SkeletonCard";
 import { getNFTsForOwner } from "@/services/alchemyService";
 import { NFT } from "@/types/nftTypes";
 import { supabase } from "@/utils/supabaseClient";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
+import { useRouter } from 'next/navigation';
 
 const CreateBrandPage = () => {
 
+    const router = useRouter();
     const { address, isConnected, isDisconnected, isConnecting } = useAccount();
 
     const [brandName, setBrandName] = useState<string>('');
@@ -16,13 +18,23 @@ const CreateBrandPage = () => {
     const [nfts, setNfts] = useState<NFT[]>([]);
     const [selectedNfts, setSelectedNfts] = useState<{ [key: string]: { selected: boolean, price: string } }>({});
 
+    const checkAuth = async () => {
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+
+        if (!user) {
+            router.push('/');
+        }
+    }
+
     const callGetNFTsForOwner = async (owner: string, pageKey?: string) => {
 
         if (!owner) return;
 
         try {
             const data = await getNFTsForOwner(owner, pageKey, 8); // Keep it as 8 for simplicity
-            console.log(data);
+            //console.log(data);
             setNfts(prev => [...prev, ...data.ownedNfts]);
         } catch (error) {
             console.error(error);
@@ -87,6 +99,10 @@ const CreateBrandPage = () => {
     const handleBrandNameChange = (e: any) => setBrandName(e.target.value);
     const handleDescriptionChange = (e: any) => setDescription(e.target.value);
 
+    useEffect(() => {
+        checkAuth();
+    }, []);
+
     const nftCards = nfts.map((nft) => (
         <div key={nft.tokenId} className="card w-96 bg-base-100 shadow-xl m-2">
             <figure><img src={nft.image.originalUrl} alt={nft.name} /></figure>
@@ -110,7 +126,6 @@ const CreateBrandPage = () => {
             callGetNFTsForOwner(address as string);
         }
     }, [isConnected]);
-
 
     return (
         <div className="p-4">

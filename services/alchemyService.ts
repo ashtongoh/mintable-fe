@@ -1,7 +1,10 @@
 import { GetNFTsForOwnerResponse } from '@/types/nftTypes';
 import axios from 'axios';
 
-const apiKey = "KY-V6LZjLlebzHArPtdS9n30yNphKPXQ"; // Fucking hide this shit
+process.env.NEXT_PUBLIC_SUPABASE_URL
+
+// const apiKey = "KY-V6LZjLlebzHArPtdS9n30yNphKPXQ"; // Fucking hide this shit
+const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_SEPOLIA_API_KEY as string; // Fucking hide this shit
 
 const client = axios.create({
     // baseURL: `https://eth-mainnet.g.alchemy.com/nft/v3/${apiKey}`,
@@ -42,27 +45,5 @@ export const getNFTMetadata = async (contractAddress: string, tokenId: string, t
         throw error;
     }
 }
-
-// const API_KEY = process.env.ALCHEMY_SEPOLIA_API_KEY; // Assuming you have an environment variable for the API key
-
-// // Base fetch function
-// const fetchWithBaseConfig = (endpoint: string) => {
-//     const baseUrl = `https://eth-mainnet.g.alchemy.com/nft/v3/${API_KEY}`;
-//     const options = {method: 'GET', headers: {accept: 'application/json'}};
-//     return fetch(`${baseUrl}${endpoint}`, options);
-// };
-
-// // Specific API function
-// export const getNFTsForOwner = async (owner: string, pageKey: string = '', pageSize: number = 100) => {
-//     try {
-//         const response = await fetchWithBaseConfig(`/getNFTsForOwner?owner=${owner}&withMetadata=true&pageKey=${pageKey}&pageSize=${pageSize}`);
-//         const data = await response.json();
-//         console.log(data);
-//         return data;
-//     } catch (error) {
-//         console.error(error);
-//         throw error;
-//     }
-// };
 
 

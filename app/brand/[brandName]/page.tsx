@@ -19,7 +19,7 @@ const BrandPage = () => {
             .select('*')
             .eq('name', brandName);
 
-        console.log(data);
+        //console.log(data);
 
         if (error) {
             throw error;

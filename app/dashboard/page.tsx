@@ -17,8 +17,17 @@ const DashboardPage = () => {
     const [nfts, setNfts] = useState<NFT[]>([]);
     const [pageKey, setPageKey] = useState<string | undefined>(undefined); // Pagination key for fetching more NFTs
     const [pageSize, setPageSize] = useState<number>(10); // Number of NFTs to fetch per page [5, 10, 20, 30, 40, 50
-    const [loading, setLoading] = useState<boolean>(false);
     const [nftCount, setNftCount] = useState<number>(0); // Total number of NFTs owned by the user
+
+    const checkAuth = async () => {
+        const {
+            data: { user },
+        } = await supabase.auth.getUser();
+
+        if (!user) {
+            router.push('/');
+        }
+    }
 
     const handleViewClick = (contractAddress: string, tokenId: string, tokenType: string) => {
         router.push(`/nft/${tokenType}/${contractAddress}/${tokenId}`);
@@ -30,7 +39,7 @@ const DashboardPage = () => {
 
         try {
             const data = await getNFTsForOwner(owner, pageKey, pageSize);
-            console.log(data);
+            //console.log(data);
             setNfts(prev => [...prev, ...data.ownedNfts]);
             setPageKey(data.pageKey);
             setNftCount(data.totalCount);
@@ -55,13 +64,11 @@ const DashboardPage = () => {
     }, [isConnected, pageSize]);
 
     useEffect(() => {
+        checkAuth();
         supabase.auth.onAuthStateChange((event, session) => {
-
-            // if (session) {
-            //     window.localStorage.setItem('test', JSON.stringify(session));
-            // }
-
-          })
+            // Ignore this for now
+            // Using manual redirect
+        })
     }, []);
 
 
@@ -73,7 +80,7 @@ const DashboardPage = () => {
                 <div className="stats shadow">
                     <div className="stat">
                         <div className="stat-title">Total NFTs Owned</div>
-                        <div className="stat-value">{ isConnected ? nftCount : "-"}</div>
+                        <div className="stat-value">{isConnected ? nftCount : "-"}</div>
                     </div>
                 </div>
                 <select className="select select-bordered w-full max-w-xs mt-4 sm:mt-0" onChange={handlePageSizeChange} defaultValue={pageSize}>
