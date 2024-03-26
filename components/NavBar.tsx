@@ -63,7 +63,7 @@ const NavBar = () => {
                 <a className="btn btn-ghost text-xl">MintableLite</a>
             </div>
             {
-                isAuthenticated && (
+                isAuthenticated ? (
 
                     isConnected ? (
                         <div className="flex navbar-end gap-3">
@@ -76,6 +76,10 @@ const NavBar = () => {
                                 <a className="btn btn-primary" onClick={() => connect({ connector: injected() })}>Connect</a>
                             </div>
                         )
+                ) : (
+                    <div className="navbar-end">
+                        
+                    </div>
                 )
             }
         </div>
